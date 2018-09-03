@@ -1,0 +1,5 @@
+//Run these two commands after setting up and setting to a database
+//The latter of the two stops timestamps from autoupdating; editing info shouldn't update the timestamp.
+CREATE TABLE `whrw_tracker`.`tracks` ( `id` MEDIUMINT(9) NOT NULL AUTO_INCREMENT , `track` CHAR(255) NULL , `artist` CHAR(255) NULL , `album` CHAR(255) NULL , `ts` TIMESTAMP NOT NULL , `recent` TINYINT(1) NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `tracks` CHANGE `ts` `ts` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
