@@ -8,8 +8,8 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 
-	$sql = "SELECT * FROM tracks ORDER BY id DESC LIMIT 2";
-	
+	//$sql = "SELECT * FROM tracks ORDER BY id DESC LIMIT 2";
+	$sql = "SELECT * FROM tracks WHERE ts >= now() - INTERVAL 1 DAY ORDER BY id DESC";
 	$result = mysqli_query($conn,$sql);
 	$result_copy = mysqli_query($conn,$sql);;
 

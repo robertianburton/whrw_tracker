@@ -1,7 +1,9 @@
 var main = function(){
 	//Sets focus to the track input field
 	$(function() {
+		grabrows();
 		$("#inputTrack").focus();
+
 	});
 
 	//Calculates table height from window height
@@ -60,14 +62,15 @@ var main = function(){
 			console.log("Nothing in the fields");
 		} else {
 			console.log(inputArtist.value);
+			var date_parse = new Date();
 			html_to_insert = '<tr><td class="col-3"><span>'+inputTrack.value.toString()
 				+'</span></td><td class="col-3"><span>'+inputArtist.value.toString()
 				+'</span></td><td class="col-3 albumLine"><span>'+inputAlbum.value.toString()
 				+'</span></td><td class="col-1"><span>'
 				+checkboxxChar
 				+'</span></td><td class="col-2 timeLine">'
-				+timeStamp.toLocaleTimeString('en-US', { hour12: false });
-				+'</td></tr>'
+				+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })
+				+'</td></tr>';
 			document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
 			
 			xmlhttp = new XMLHttpRequest();
@@ -94,7 +97,12 @@ var main = function(){
 
 	//Grab Rows from the DB
 	document.getElementById("grabrows").addEventListener("click", function() {
+		grabrows();
+		/*
 		console.log("Success! grab them rowz");
+
+		//clear old entries to be readded
+		document.getElementById('tableBody').innerHTML = "";
 
 		var theresponse = 0;
 
@@ -103,32 +111,36 @@ var main = function(){
 			if(this.readyState==4 && this.status ==200) {
 				//document.getElementById("playbox").innerHTML = this.responseText;
 				console.log(this.response);
-				console.log(this.response[0]["track"]);
+				//console.log(this.response[0]["track"]);
+				for(var i = this.response.length-1; i>=0; i--) {
+					var date_parse = new Date(this.response[i]["ts"]);
 
-				var date_parse = new Date(this.response[0]["ts"]);
+					var checkboxxChar = '✖';
+					if(this.response[i]["recent"]==="1") {
+						checkboxxChar = '✔';
+					}
 
-				var checkboxxChar = '✖';
-				if(this.response[0]["recent"]==="1") {
-					checkboxxChar = '✔';
+					html_to_insert = '<tr><td class="col-3"><span>'+this.response[i]["track"]
+						+'</span></td><td class="col-3"><span>'+this.response[i]["artist"]
+						+'</span></td><td class="col-3 albumLine"><span>'+this.response[i]["album"]
+						+'</span></td><td class="col-1"><span>'
+						+checkboxxChar
+						+'</span></td><td class="col-2 timeLine">'
+						+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })
+						+'</td></tr>';
+				
+					//html_to_insert = '';
+					document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
 				}
-
-				html_to_insert = '<tr><td class="col-3"><span>'+this.response[0]["track"]
-					+'</span></td><td class="col-3"><span>'+this.response[0]["artist"]
-					+'</span></td><td class="col-3 albumLine"><span>'+this.response[0]["album"]
-					+'</span></td><td class="col-1"><span>'
-					+checkboxxChar
-					+'</span></td><td class="col-2 timeLine">'
-					+date_parse.toLocaleTimeString('en-US', { hour12: false })
-					+'</td></tr>';
-
-				//html_to_insert = '';
-				document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
+				tableBody.scrollTop = tableBody.scrollHeight;
 			}
 		}
 
 		xmlhttp.open("GET","grabrows.php",true);
 		xmlhttp.responseType = 'json';
 		xmlhttp.send();
+
+		*/
 	});
 
 	//Adds popup to prevent accidental tab closure
@@ -166,6 +178,51 @@ var main = function(){
 var withResize = function(){
 	$('#tableBody').height($(window).height() - 184);
 	console.log("triggeredd");
+}
+
+var grabrows = function(){
+		console.log("Success! grab them rowz");
+
+		//clear old entries to be readded
+		document.getElementById('tableBody').innerHTML = "";
+
+		var theresponse = 0;
+
+		xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if(this.readyState==4 && this.status ==200) {
+				//document.getElementById("playbox").innerHTML = this.responseText;
+				console.log(this.response);
+				//console.log(this.response[0]["track"]);
+				for(var i = this.response.length-1; i>=0; i--) {
+					var date_parse = new Date(this.response[i]["ts"]);
+
+					var checkboxxChar = '✖';
+					if(this.response[i]["recent"]==="1") {
+						checkboxxChar = '✔';
+					}
+
+					html_to_insert = '<tr><td class="col-3"><span>'+this.response[i]["track"]
+						+'</span></td><td class="col-3"><span>'+this.response[i]["artist"]
+						+'</span></td><td class="col-3 albumLine"><span>'+this.response[i]["album"]
+						+'</span></td><td class="col-1"><span>'
+						+checkboxxChar
+						+'</span></td><td class="col-2 timeLine">'
+						+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })
+						+'</td></tr>';
+				
+					//html_to_insert = '';
+					document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
+				}
+				tableBody.scrollTop = tableBody.scrollHeight;
+			}
+		}
+
+		xmlhttp.open("GET","grabrows.php",true);
+		xmlhttp.responseType = 'json';
+		xmlhttp.send();
+
+
 }
 
 $(document).ready(function() {
