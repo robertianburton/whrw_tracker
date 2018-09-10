@@ -112,3 +112,8 @@ html ::-webkit-scrollbar {
     vertical-align: middle;
     float: none;
 }
+
+.table-striped>tbody>tr:hover>td, 
+.table-striped>tbody>tr:hover>th {
+   background-color: #AAEEAA;
+ }

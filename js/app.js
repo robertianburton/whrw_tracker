@@ -47,7 +47,6 @@ var main = function(){
 			checkboxxChar = '✔';
 		}
 
-
 		var timeStamp = new Date();
 		if(inputTrack.value.toString()==="") {
 			inputTrack.value = "N/A";
@@ -63,7 +62,8 @@ var main = function(){
 		} else {
 			console.log(inputArtist.value);
 			var date_parse = new Date();
-			html_to_insert = '<tr><td class="col-3"><span>'+inputTrack.value.toString()
+			/*
+			html_to_insert = '<tr class="newestSong"><td class="col-3"><span>'+inputTrack.value.toString()
 				+'</span></td><td class="col-3"><span>'+inputArtist.value.toString()
 				+'</span></td><td class="col-3 albumLine"><span>'+inputAlbum.value.toString()
 				+'</span></td><td class="col-1"><span>'
@@ -72,7 +72,8 @@ var main = function(){
 				+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })
 				+'</td></tr>';
 			document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
-			
+			*/
+
 			xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function() {
 				if(this.readyState==4 && this.status ==200) {
@@ -90,6 +91,7 @@ var main = function(){
 			
 			$(".timeLine").removeClass("unselectable");
 			
+			grabrows();
 		}
 		document.getElementById("trackForm").reset();
 			$("#inputTrack").focus();
@@ -98,49 +100,11 @@ var main = function(){
 	//Grab Rows from the DB
 	document.getElementById("grabrows").addEventListener("click", function() {
 		grabrows();
-		/*
-		console.log("Success! grab them rowz");
+	});
 
-		//clear old entries to be readded
-		document.getElementById('tableBody').innerHTML = "";
-
-		var theresponse = 0;
-
-		xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-			if(this.readyState==4 && this.status ==200) {
-				//document.getElementById("playbox").innerHTML = this.responseText;
-				console.log(this.response);
-				//console.log(this.response[0]["track"]);
-				for(var i = this.response.length-1; i>=0; i--) {
-					var date_parse = new Date(this.response[i]["ts"]);
-
-					var checkboxxChar = '✖';
-					if(this.response[i]["recent"]==="1") {
-						checkboxxChar = '✔';
-					}
-
-					html_to_insert = '<tr><td class="col-3"><span>'+this.response[i]["track"]
-						+'</span></td><td class="col-3"><span>'+this.response[i]["artist"]
-						+'</span></td><td class="col-3 albumLine"><span>'+this.response[i]["album"]
-						+'</span></td><td class="col-1"><span>'
-						+checkboxxChar
-						+'</span></td><td class="col-2 timeLine">'
-						+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })
-						+'</td></tr>';
-				
-					//html_to_insert = '';
-					document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
-				}
-				tableBody.scrollTop = tableBody.scrollHeight;
-			}
-		}
-
-		xmlhttp.open("GET","grabrows.php",true);
-		xmlhttp.responseType = 'json';
-		xmlhttp.send();
-
-		*/
+	//Grab Rows from the DB
+	document.getElementById("blogModalButton").addEventListener("click", function() {
+		makeblogtext();
 	});
 
 	//Adds popup to prevent accidental tab closure
@@ -151,7 +115,7 @@ var main = function(){
 		(e || window.event).returnValue = confirmationMessage; //Gecko + IE
 		return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
 	});
-
+	/*
 	//Hide Times
 	document.getElementById("showTime").addEventListener("click", function() {
 		$(".timeLine").toggleClass("unselectable");
@@ -161,7 +125,7 @@ var main = function(){
 	document.getElementById("showAlbum").addEventListener("click", function() {
 		$(".albumLine").toggleClass("unselectable");
 	});
-
+	*/
 	//Open Otto
 	document.getElementById("otto").addEventListener("click", function() {
 		var win = window.open("https://twitter.com/roboverlord", '_blank');
@@ -180,49 +144,103 @@ var withResize = function(){
 	console.log("triggeredd");
 }
 
-var grabrows = function(){
-		console.log("Success! grab them rowz");
+var makeblogtext = function(){
+	var blogtext = "Use this to copy to a blog post!<br>Track - Artist - Album";
+	document.getElementById('blogModalBody').innerHTML = blogtext;
 
-		//clear old entries to be readded
-		document.getElementById('tableBody').innerHTML = "";
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if(this.readyState==4 && this.status ==200) {
 
-		var theresponse = 0;
-
-		xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-			if(this.readyState==4 && this.status ==200) {
-				//document.getElementById("playbox").innerHTML = this.responseText;
-				console.log(this.response);
-				//console.log(this.response[0]["track"]);
-				for(var i = this.response.length-1; i>=0; i--) {
-					var date_parse = new Date(this.response[i]["ts"]);
-
-					var checkboxxChar = '✖';
-					if(this.response[i]["recent"]==="1") {
-						checkboxxChar = '✔';
-					}
-
-					html_to_insert = '<tr><td class="col-3"><span>'+this.response[i]["track"]
-						+'</span></td><td class="col-3"><span>'+this.response[i]["artist"]
-						+'</span></td><td class="col-3 albumLine"><span>'+this.response[i]["album"]
-						+'</span></td><td class="col-1"><span>'
-						+checkboxxChar
-						+'</span></td><td class="col-2 timeLine">'
-						+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })
-						+'</td></tr>';
+			console.log(this.response);
+			//console.log(this.response[0]["track"]);
+			for(var i = this.response.length-1; i>=0; i--) {
 				
-					//html_to_insert = '';
-					document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
+				//Prepare the track's date for formatting
+				var date_parse = new Date(this.response[i]["ts"]);
+
+				//Prepare check or cross if track is recent or not
+				var checkboxxChar = '✖';
+				if(this.response[i]["recent"]==="1") {
+					checkboxxChar = '✔';
 				}
-				tableBody.scrollTop = tableBody.scrollHeight;
+
+				//Build HTML to add track to page
+				html_to_insert = '<br>'+this.response[i]["track"];
+				
+				if(this.response[i]["artist"] === "N/A") {
+					html_to_insert += '';
+				} else {
+					html_to_insert += ' - '+this.response[i]["artist"];
+				}
+
+				if(this.response[i]["album"] === "N/A") {
+					html_to_insert += '';
+				} else {
+					html_to_insert += ' - '+this.response[i]["album"];
+				}
+
+				/*
+				html_to_insert += '<td class="col-3"><span>'+this.response[i]["artist"]+'</span></td>'
+					+'<td class="col-3 albumLine"><span>'+this.response[i]["album"]+'</span></td>'
+					+'<td class="col-1"><span>'+checkboxxChar+'</span></td>'
+					+'<td class="col-2 timeLine">'+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })+'</td>';
+				html_to_insert += '</tr>';
+				*/
+				//Add track to page
+				document.getElementById('blogModalBody').insertAdjacentHTML('beforeend', html_to_insert);
 			}
 		}
+	}
 
-		xmlhttp.open("GET","grabrows.php",true);
-		xmlhttp.responseType = 'json';
-		xmlhttp.send();
+	xmlhttp.open("GET","grabrows.php",true);
+	xmlhttp.responseType = 'json';
+	xmlhttp.send();
+}
 
+var grabrows = function(){
+	console.log("Success! grab them rowz");
 
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if(this.readyState==4 && this.status ==200) {
+			//clear old entries
+			document.getElementById('tableBody').innerHTML = "";
+
+			console.log(this.response);
+			//console.log(this.response[0]["track"]);
+			for(var i = this.response.length-1; i>=0; i--) {
+				
+				//Prepare the track's date for formatting
+				var date_parse = new Date(this.response[i]["ts"]);
+
+				//Prepare check or cross if track is recent or not
+				var checkboxxChar = '✖';
+				if(this.response[i]["recent"]==="1") {
+					checkboxxChar = '✔';
+				}
+
+				//Build HTML to add track to page
+				html_to_insert = '<tr id="song'+this.response[i]["id"]+'" class="songentry"><td class="col-3"><span>'+this.response[i]["track"]
+					+'</span></td><td class="col-3"><span>'+this.response[i]["artist"]
+					+'</span></td><td class="col-3 albumLine"><span>'+this.response[i]["album"]
+					+'</span></td><td class="col-1"><span>'
+					+checkboxxChar
+					+'</span></td><td class="col-2 timeLine">'
+					+date_parse.toLocaleTimeString('en-US', { hour12: false, weekday: 'short' })
+					+'</td></tr>';
+			
+				//Add track to page
+				document.getElementById('tableBody').insertAdjacentHTML('beforeend', html_to_insert);
+			}
+			//Scroll to bottom
+			tableBody.scrollTop = tableBody.scrollHeight;
+		}
+	}
+
+	xmlhttp.open("GET","grabrows.php",true);
+	xmlhttp.responseType = 'json';
+	xmlhttp.send();
 }
 
 $(document).ready(function() {

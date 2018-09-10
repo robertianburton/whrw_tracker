@@ -39,6 +39,25 @@
 	  </div>
 	</div>
 
+	<div class="modal fade" id="blogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Blog View</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div id="blogModalBody" class="modal-body">
+			If you're seeing this, something probably went wrong.
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
 	
 	<h1>Song History</h1>
 	
@@ -102,12 +121,15 @@
 		</tbody>
 	  </table>
 	  <div class="span12 text-center">
-		<button type="button" id="showTime" class="btn btn-success">±Times</button>
-		<button type="button" id="showAlbum" class="btn btn-success">±Albums</button>
+		<!--<button type="button" id="showTime" class="btn btn-success">±Times</button>
+		<button type="button" id="showAlbum" class="btn btn-success">±Albums</button>-->
 		<button type="button" id="otto" class="btn btn-success">Otto</button>
 		<button type="button" id="webs" class="btn btn-success">Website</button>
 		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#aboutModal">
   			About
+		</button>
+		<button type="button" id="blogModalButton" class="btn btn-success" data-toggle="modal" data-target="#blogModal">
+  			Blog
 		</button>
 		<button type="button" id="grabrows" class="btn btn-success">Grab Rows</button>
 	  </div>
