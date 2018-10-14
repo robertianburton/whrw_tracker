@@ -30,7 +30,7 @@
 			</button>
 		  </div>
 		  <div class="modal-body">
-			This page is designed to help you keep track of, well, tracks. Enter a track, artist, and album. Then press enter and see your entry appear at the bottom of the list! If you want to copy over what you played to a post on the website do this: Press "±Times" at the bottom of the page (And "±Albums" if you wish), drag select the entries you want to copy, press Ctrl-C, and then click in the blog textbox and press Ctrl-V. You can then toggle times back on or not. Links to the automation twitter and the website are also provided. DO NOT CLOSE THE TAB. The whole point is to leave it up so the next person can see what you played.<br><br>Developed by Robert Burton
+			This page is designed to help you keep track of, well, tracks. Enter a track, artist, and album. If the track was released after this time last year, check the Recent box. Then submit and see your entry appear at the bottom of the list! Press the Blog button to get text you can select, copy, and paste into a blog post. Fields that were left blank will be left out of the blog text. Links to the automation twitter and the website are also provided. You shouldn't need to close the tab, but it's not a big deal anymore. The whole point is to leave it up so the next person can see what you played.<br><br>Helpful shortcuts: Press the TAB key to jump to the next field. Use SHIFT+TAB to go back a field. Use SPACEBAR while selecting the Recent field to check it off. Press ENTER or SPACEBAR while selecting the submit button to submit.<br><br>Developed by Robert Burton
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

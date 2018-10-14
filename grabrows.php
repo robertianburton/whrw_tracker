@@ -3,6 +3,7 @@
 
 	// Create connection
 	$conn = new mysqli($ini_array["servername"], $ini_array["username"], $ini_array["password"], $ini_array["dbname"]);
+	echo "<br>".$ini_array["username"]."<br>";
 	// Check connection
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
